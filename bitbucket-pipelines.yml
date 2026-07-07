@@ -1,0 +1,30 @@
+clone:
+  depth: full
+
+definitions:
+  caches:
+    sonar: ~/.sonar/cache
+
+pipelines:
+  custom:
+    sonar:
+      - step: &static-analysis
+          runs-on:
+            - 'self.hosted'
+            - 'linux.shell'
+          name: Test and analyze on Sonarqube
+          caches:
+            - sonar
+          script:
+            - ci/staticAnalysis.sh
+  pull-requests:
+    '**':
+      - step:
+          runs-on:
+            - 'self.hosted'
+            - 'linux.shell'
+          name: coverage and mutation tests
+          caches:
+            - gradle
+          script:
+            - ci/pullRequest.sh

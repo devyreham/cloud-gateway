@@ -1,0 +1,51 @@
+devyreham:
+  allips:
+    - z.z.z.z
+    - y.y.y.y
+    - x.x.x.x
+logging:
+  file:
+    name: logs/apisdk.log
+  level:
+    com:
+      devyreham:
+        apisdk: WARN
+    org:
+      springframework:
+        boot:
+          context: DEBUG
+        security: INFO
+        web: INFO
+        cloud:
+          gateway: INFO
+    reactor:
+      netty:
+        transport: INFO
+
+server:
+  error:
+    whitelabel:
+      enabled: false
+  port: 9000
+  servlet:
+    contextPath: /api/
+spring:
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
+  main:
+    banner-mode: 'off'
+  cloud:
+    gateway:
+      server:
+        webflux:
+          enabled: true
+
+management:
+  endpoint:
+    gateway:
+        access: readonly
+  endpoints:
+    web:
+      exposure:
+        include: gateway
+

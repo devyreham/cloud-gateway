@@ -1,0 +1,86 @@
+plugins {
+    id 'org.springframework.boot' version '4.1.0'
+    id 'io.spring.dependency-management' version '1.1.7'
+    id 'java'
+    id 'war'
+    id 'jacoco'
+    id 'maven-publish'
+    id 'org.owasp.dependencycheck' version '12.0.1'
+}
+
+group = 'com.devyreham'
+version = '4.6.6-SNAPSHOT'
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+compileJava {
+    options.encoding = 'UTF-8'
+    options.deprecation = true
+    options.verbose = false
+}
+war {
+    enabled = false
+}
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.cloud:spring-cloud-starter-gateway-server-webflux'
+
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    implementation 'org.springframework.boot:spring-boot-starter-jetty'
+    implementation 'org.apache.commons:commons-lang3'
+    implementation 'com.nimbusds:nimbus-jose-jwt:9.37.3'
+    implementation 'org.apache.httpcomponents.client5:httpclient5:5.6.1'
+
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    testImplementation 'org.springframework.security:spring-security-test'
+
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2025.1.2"
+    }
+}
+
+test {
+    useJUnitPlatform()
+    exclude "com/devyreham/apisdk/company/**"
+    ignoreFailures = true
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+        csv.required = false
+        html.required = false
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            credentials {
+                username = "$mavenUser"
+                password = "$mavenPassword"
+            }
+            def releasesRepoUrl = "https://devyreham.com/nexus/repository/maven-releases"
+            def snapshotsRepoUrl = "https://devyreham.com/nexus/repository/maven-snapshots"
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+        }
+    }
+    publications {
+        springboot(MavenPublication) {
+            artifact bootWar
+        }
+    }
+}
+

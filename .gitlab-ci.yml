@@ -1,0 +1,26 @@
+stages:
+  - test
+  - build
+  - deploy
+
+sonar-job:
+  stage: test
+  script:
+    - bash ./ci/staticAnalysis.sh
+  allow_failure: false
+
+build-job:
+  stage: build
+  script:
+    - ./gradlew build -x test
+    - buildah bud -f Dockerfile -t harbor.devyreham.com/apisdk:$CI_COMMIT_SHORT_SHA .
+    - echo "Build done."
+
+publish-job:
+  stage: deploy
+  environment: development
+  script:
+    - buildah login harbor.devyreham.com/docker-private -u $REPO_USERNAME -p $REPO_PWD
+    - buildah push harbor.devyreham.com/apisdk:$CI_COMMIT_SHORT_SHA docker://harbor.devyreham.com/docker-private/apisdk:$CI_COMMIT_SHORT_SHA
+    - echo "Container deployed."
+  when: manual

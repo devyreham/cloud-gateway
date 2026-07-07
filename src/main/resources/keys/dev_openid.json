@@ -1,0 +1,13 @@
+{
+  "kid": "M1nM1nM1nM1nM1nM1nM1n",
+  "kty": "RSA",
+  "alg": "RS256",
+  "use": "sig",
+  "n": "xEdzSxEdzSxEdzSxEdzSxEdzS",
+  "e": "AQAB",
+  "x5c": [
+    "MIIClzCCAXMIIClzCCAXMIIClzCCAXMIIClzCCAXMIIClzCCAXMIIClzCCAXMIIClzCCAXMIIClzCCAXMIIClzCCAXMIIClzCCAX=="
+  ],
+  "x5t": "kHjAkHjAkHjAkHjAkHjA",
+  "x5t#S256": "BH7ObrT8BH7ObrT8BH7ObrT8BH7ObrT8BH7ObrT8"
+}
