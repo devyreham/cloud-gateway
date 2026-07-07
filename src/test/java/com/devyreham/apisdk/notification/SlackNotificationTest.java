@@ -1,4 +1,4 @@
-package com.devyreham.apisdk.notification;
+package com.devyreham.gateway.notification;
 
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.HashMap;

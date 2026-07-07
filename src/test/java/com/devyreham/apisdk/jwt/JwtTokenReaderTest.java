@@ -1,4 +1,4 @@
-package com.devyreham.apisdk.jwt;
+package com.devyreham.gateway.jwt;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import java.util.Map;
